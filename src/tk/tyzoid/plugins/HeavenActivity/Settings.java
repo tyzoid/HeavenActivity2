@@ -27,8 +27,23 @@ public class Settings {
 			System.out.println("[" + pluginname + "] Properties loaded.");
 			propertiesStream.close();
 			
-			settingsHolder.put("foo", loadProperty("foo", "true"));
-			settingsHolder.put("bar", loadProperty("bar", "false"));
+			//commands
+			loadProperty("command-activity", "/heavenactivity,/activity,/ha");
+			
+			//multipliers
+			loadProperty("multiplier-block-destroy", "1.0");
+			loadProperty("multiplier-block-place", "1.2");
+			loadProperty("multiplier-chat", "0.25");
+			loadProperty("multiplier-command", "0.25");
+			
+			//tracking options
+			loadProperty("tracking-time", "5.0");
+			loadProperty("tracking-type", "logistic");
+
+			loadProperty("tracking-chat", "true");
+			loadProperty("tracking-block-place", "true");
+			loadProperty("tracking-block-break", "true");
+			//loadProperty("", "");
 			
 			FileOutputStream propertiesOutputStream = new FileOutputStream(propertiesFile);
 			props.store(propertiesOutputStream, "");
@@ -46,7 +61,11 @@ public class Settings {
 		readSettings();
 	}
 	
-	private String loadProperty(String property, String defaultValue){
+	private void loadProperty(String property, String defaultValue){
+		settingsHolder.put(property, lProperty(property, defaultValue));
+	}
+	
+	private String lProperty(String property, String defaultValue){
 		String currentProperty;
 		currentProperty = props.getProperty(property);
 		String value;
