@@ -10,12 +10,12 @@ public class Settings {
 	private Properties props = new Properties();
 	
 	private final HashMap<String, String> settingsHolder = new HashMap<String, String>();
-	private String pluginname = "HelpTicket";
+	private String pluginname = "HeavenActivity";
 	
 	public void readSettings(){
 		try{
-			String path = "plugins/HelpTicket";
-			File propertiesFile = new File(path + "/HelpTicket.properties");
+			String path = "plugins/HeavenActivity";
+			File propertiesFile = new File(path + "/HeavenActivity.properties");
     		if(!propertiesFile.exists()){
     			(new File(path)).mkdir();
     			propertiesFile.createNewFile();

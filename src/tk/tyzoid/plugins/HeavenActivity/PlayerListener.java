@@ -21,20 +21,9 @@ public class PlayerListener implements Listener {
 		String command = event.getMessage();
 		Player player = event.getPlayer();
 		
-		//the /foo command
-		if(split[0] == "/foo" && plugin.hasPermission(player, "template.foo")){
-			player.sendMessage("[" + pluginname + "] I sense shenanigans. You used /foo");
-			plugin.getServer().broadcastMessage("[" + pluginname + "] " + player.getName() + " used /foo");
-			event.setCancelled(true);
-			
-			return;
-		}
-		
-		if(split[0] == "/bar" && plugin.hasPermission(player, "template.bar")){
-			player.sendMessage("[" + pluginname + "] I sense shenanigans. You used /bar");
-			plugin.getServer().broadcastMessage("[" + pluginname + "] " + player.getName() + " used /bar");
-			event.setCancelled(true);
-			
+		//the /activity command
+		if(split[0] == "/activity" && plugin.hasPermission(player, "activity.view.other")){
+			//TODO finish command
 			return;
 		}
 	}
