@@ -3,14 +3,34 @@ main: tk.tyzoid.plugins.HeavenActivity.HeavenActivity
 version: 2.0.0a
 author: Tyzoid
 permissions:
-    heavenactivity.*:
-        description: Gives access to all heavenactivity commands
+    activity.view.*:
+        description: Allows to view all information
         children:
-            heavenactivity.foo: true
-            heavenactivity.bar: true
-    heavenactivity.foo:
-        description: Allows people to use /foo
-        default: OP
-    heavenactivity.bar
-        description: Allows people to use /bar
-        default: OP
+            activity.view.own: true
+            activity.view.other: true
+            activity.view.list: true
+    activity.view.own:
+        description: Allows to view own activity with /activity
+        default: true
+    activity.view.other:
+        description: Allows to view activity of other players with /activity (name)
+        default: true
+    activity.view.list:
+        description: Allows to view a list of all players and their current activity with /activity list
+        default: true
+    
+    activity.notify.*:
+        descriptions: Sends all notifications
+        children:
+            activity.notify.activity: true
+            activity.notify.income: true
+    activity.notify.activity:
+        description: Sends regular notifications about current activity
+        default: true
+    activity.notify.income:
+        description: Sends notifications about income
+        default: true
+    
+    activity.admin.*:
+        description: Allows admin stuff
+        default: op
