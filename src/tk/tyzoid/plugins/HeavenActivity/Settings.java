@@ -30,6 +30,10 @@ public class Settings {
 			//commands
 			loadProperty("command-activity", "/heavenactivity,/activity,/ha");
 			
+			//currency
+			loadProperty("currency-factor", "100");
+			loadProperty("currency-symbol", "$");
+			
 			//multipliers
 			loadProperty("multiplier-block-destroy", "1.0");
 			loadProperty("multiplier-block-place", "1.2");
