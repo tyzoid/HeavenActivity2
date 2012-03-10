@@ -1,15 +1,16 @@
-name: HelpTicket
-main: tk.tyzoid.plugins.Template.Template
-version: 1.0.0a
+name: HeavenActivity
+main: tk.tyzoid.plugins.HeavenActivity.HeavenActivity
+version: 2.0.0a
 author: Tyzoid
 permissions:
-    template.*:
-        description: Gives access to all template commands
+    heavenactivity.*:
+        description: Gives access to all heavenactivity commands
         children:
-            template.foo: true
-    template.foo:
+            heavenactivity.foo: true
+            heavenactivity.bar: true
+    heavenactivity.foo:
         description: Allows people to use /foo
         default: OP
-    template.bar
+    heavenactivity.bar
         description: Allows people to use /bar
         default: OP
