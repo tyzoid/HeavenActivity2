@@ -7,16 +7,17 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import tk.tyzoid.plugins.HeavenActivity.PlayerListener;
+import tk.tyzoid.plugins.HeavenActivity.lib.Settings;
+import tk.tyzoid.plugins.HeavenActivity.listeners.PlayerListener;
 
 import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
 
 public class HeavenActivity extends JavaPlugin {
-	String pluginname = "Template";
+	public String pluginname = "HeavenActivity";
 	
     private final PlayerListener playerListener = new PlayerListener(this);
-    public Settings cSettings = new Settings();
+    public Settings settings = new Settings();
     public PermissionHandler permissionHandler;
     public boolean permissionsExists = false;
     public boolean useSuperperms = false;
@@ -32,7 +33,7 @@ public class HeavenActivity extends JavaPlugin {
         PluginDescriptionFile pdfFile = this.getDescription();
         System.out.println("[" + pluginname + "] Starting " + pluginname + " v" + pdfFile.getVersion() + "...");
         setupPermissions();
-        cSettings.readSettings();
+        settings.readSettings();
     }
     
     private void setupPermissions() {
@@ -60,9 +61,9 @@ public class HeavenActivity extends JavaPlugin {
     }
     
     /* Valid nodes:
-     * template.*
-     * template.foo
-     * template.bar
+     * HeavenActivity.*
+     * HeavenActivity.foo
+     * HeavenActivity.bar
      */
     public boolean hasPermission(Player p, String node){
     	if(!useSuperperms){
