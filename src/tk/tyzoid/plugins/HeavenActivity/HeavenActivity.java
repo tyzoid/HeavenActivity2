@@ -17,7 +17,7 @@ public class HeavenActivity extends JavaPlugin {
 	public String pluginname = "HeavenActivity";
 	
     private final PlayerListener playerListener = new PlayerListener(this);
-    public Settings settings = new Settings();
+    public Settings settings = new Settings(this);
     public PermissionHandler permissionHandler;
     public boolean permissionsExists = false;
     public boolean useSuperperms = false;
@@ -25,7 +25,7 @@ public class HeavenActivity extends JavaPlugin {
     public void onDisable() {
         System.out.println("[" + pluginname +"] " + pluginname + " is closing...");
     }
-
+    
     public void onEnable() {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(playerListener, this);

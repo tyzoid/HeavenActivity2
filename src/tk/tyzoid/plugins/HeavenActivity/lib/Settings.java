@@ -6,11 +6,19 @@ import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Properties;
 
+import tk.tyzoid.plugins.HeavenActivity.HeavenActivity;
+
 public class Settings {
 	private Properties props = new Properties();
 	
 	private final HashMap<String, String> settingsHolder = new HashMap<String, String>();
-	private String pluginname = "HeavenActivity";
+	private String pluginname;
+	HeavenActivity plugin;
+	
+	public Settings(HeavenActivity instance){
+		this.plugin = instance;
+		this.pluginname = instance.pluginname;
+	}
 	
 	public void readSettings(){
 		try{
@@ -51,8 +59,10 @@ public class Settings {
 			loadProperty("tracking-quarter", "150");
 			//loadProperty("", "");
 			
+			//verify settings
 			verifySettings();
 			
+			//save changes
 			FileOutputStream propertiesOutputStream = new FileOutputStream(propertiesFile);
 			props.store(propertiesOutputStream, "");
 		} catch(Exception e){
@@ -187,6 +197,7 @@ public class Settings {
 	}
 	
 	private void setProperty(String property, String value){
-		props.setProperty(property, value);		
+		props.setProperty(property, value);
+		settingsHolder.put(property, value);
 	}
 }

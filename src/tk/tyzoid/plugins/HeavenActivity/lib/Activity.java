@@ -6,20 +6,22 @@ public class Activity {
 	private int messages, blockbreak, blockplace, command;
 	private long initialtime;
 	private HeavenActivity plugin;
-	 
+	
+	private int trackingtime;
+	private int difficulty;
+	
+	private boolean trackchat, trackcommand, trackblockplace, trackblockbreak;
+	
 	
 	public Activity(HeavenActivity instance){
-		this.messages = 0;
-		this.blockbreak = 0;
-		this.blockplace = 0;
-		this.command = 0;
-		
-		initialtime = System.currentTimeMillis()/1000;
-		
-		plugin = instance;
+		init(instance, 0, 0, 0, 0);
 	}
 	
 	public Activity(HeavenActivity instance, int messages, int blockbreak, int blockplace, int command){
+		init(instance, messages, blockbreak, blockplace, command);
+	}
+	
+	private void init(HeavenActivity instance, int messages, int blockbreak, int blockplace, int command){
 		this.messages = messages;
 		this.blockbreak = blockbreak;
 		this.blockplace = blockplace;
@@ -28,6 +30,21 @@ public class Activity {
 		initialtime = System.currentTimeMillis()/1000;
 		
 		plugin = instance;
+		updateSettings();
+	}
+	
+	public synchronized void updateSettings(){
+		try{
+			trackingtime 	= Integer.parseInt(plugin.settings.getProperty("tracking-time"));
+			difficulty 		= Integer.parseInt(plugin.settings.getProperty("tracking-quarter"));
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		
+		trackchat		= plugin.settings.getProperty("tracking-chat").equalsIgnoreCase("true");
+		trackcommand	= plugin.settings.getProperty("tracking-command").equalsIgnoreCase("true");
+		trackblockplace	= plugin.settings.getProperty("tracking-block-place").equalsIgnoreCase("true");
+		trackblockbreak	= plugin.settings.getProperty("tracking-block-break").equalsIgnoreCase("true");
 	}
 	
 	public synchronized int getmessages(){
@@ -63,16 +80,30 @@ public class Activity {
 	}
 	
 	public synchronized double getActivity(){
-		double activity = 1/(1+8*Math.exp(-(messages/150+blockplace/150+blockbreak/150+command/150)));
+		double activity = 1/(1+8*Math.exp((-1/difficulty) * getBase()));
 		
 		return activity;
 	}
 	
 	public synchronized double getEstimatedActivity(){
-		long currentTime = System.currentTimeMillis()/1000;
-		double timeMultiplier;
-		double activity = 1/(1+8*Math.exp(-(messages/150+blockplace/150+blockbreak/150+command/150)));
+		long currenttime = System.currentTimeMillis()/1000;
+		double tm = trackingtime/(currenttime - initialtime); //time multiplier
+		double activity = 1/(1+8*Math.exp((-tm/difficulty) * getBase()));
 		
 		return activity;
+	}
+	
+	private int getBase(){
+		int base = 0;
+		if(trackblockbreak)
+			base+=blockbreak;
+		if(trackblockplace)
+			base+=blockplace;
+		if(trackchat)
+			base+=messages;
+		if(trackcommand)
+			base+=command;
+		
+		return base;
 	}
 }

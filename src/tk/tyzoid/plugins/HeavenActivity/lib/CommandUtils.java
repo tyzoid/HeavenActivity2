@@ -15,13 +15,13 @@ public class CommandUtils {
 	
 	public boolean commandUsed(String[] split, Player player, String property, String permission){
 		String[] commands = plugin.settings.getProperty(property).split(",");
-
+		
 		return commandUsed(split, player, commands, permission);
 	}
-
+	
 	public boolean commandUsed(String[] split, Player player, String[] commands, String permission){
 		boolean commandUsed = false;
-
+		
 		if(player.hasPermission(permission) || player.isOp()){
 			for(int i = 0; i < commands.length && !commandUsed; i++){
 				commandUsed = split[0].equalsIgnoreCase(commands[i]);
@@ -35,22 +35,30 @@ public class CommandUtils {
 				player.sendMessage("§b[" + pluginname + "§b] §cYou do not have permissions to use that command.");
 			}
 		}
-
+		
 		return commandUsed;
 	}
-
+	
 	public boolean commandUsed(String[] split, Player player, String property){
 		String[] commands = plugin.settings.getProperty(property).split(",");
-
+		
 		return commandUsed(split, player, commands);
 	}
-
+	
 	public boolean commandUsed(String[] split, Player player, String[] commands){
 		boolean commandUsed = false;
-
+		
 		for(int i = 0; i < commands.length && !commandUsed; i++){
 			commandUsed = split[0].equalsIgnoreCase(commands[i]);
 		}
 		return commandUsed;
+	}
+	
+	public void noPermission(Player player){
+		player.sendMessage("§3[§6" + pluginname + "§3] §cYou don't have permission to do that.");
+	}
+	
+	public void notImplemented(Player player){
+		player.sendMessage("§3[§6" + pluginname +"§3] §cCommand not implemented yet! Sorry...");
 	}
 }
