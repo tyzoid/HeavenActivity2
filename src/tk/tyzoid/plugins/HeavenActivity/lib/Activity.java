@@ -1,5 +1,7 @@
 package tk.tyzoid.plugins.HeavenActivity.lib;
 
+import org.bukkit.entity.Player;
+
 import tk.tyzoid.plugins.HeavenActivity.HeavenActivity;
 
 public class Activity {
@@ -7,21 +9,23 @@ public class Activity {
 	private long initialtime;
 	private HeavenActivity plugin;
 	
-	private int trackingtime;
-	private int difficulty;
+	private int trackingtime, difficulty, factor;
 	
 	private boolean trackchat, trackcommand, trackblockplace, trackblockbreak;
 	
+	private char currency;
 	
-	public Activity(HeavenActivity instance){
-		init(instance, 0, 0, 0, 0);
+	Player player;
+	
+	public Activity(HeavenActivity instance, Player player){
+		init(instance, player, 0, 0, 0, 0);
 	}
 	
-	public Activity(HeavenActivity instance, int messages, int blockbreak, int blockplace, int command){
-		init(instance, messages, blockbreak, blockplace, command);
+	public Activity(HeavenActivity instance, Player player, int messages, int blockbreak, int blockplace, int command){
+		init(instance, player, messages, blockbreak, blockplace, command);
 	}
 	
-	private void init(HeavenActivity instance, int messages, int blockbreak, int blockplace, int command){
+	private void init(HeavenActivity instance, Player player, int messages, int blockbreak, int blockplace, int command){
 		this.messages = messages;
 		this.blockbreak = blockbreak;
 		this.blockplace = blockplace;
@@ -31,12 +35,15 @@ public class Activity {
 		
 		plugin = instance;
 		updateSettings();
+		
+		this.player = player;
 	}
 	
 	public synchronized void updateSettings(){
 		try{
 			trackingtime 	= Integer.parseInt(plugin.settings.getProperty("tracking-time"));
 			difficulty 		= Integer.parseInt(plugin.settings.getProperty("tracking-quarter"));
+			factor			= Integer.parseInt(plugin.settings.getProperty("currency-factor"));
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
@@ -45,6 +52,8 @@ public class Activity {
 		trackcommand	= plugin.settings.getProperty("tracking-command").equalsIgnoreCase("true");
 		trackblockplace	= plugin.settings.getProperty("tracking-block-place").equalsIgnoreCase("true");
 		trackblockbreak	= plugin.settings.getProperty("tracking-block-break").equalsIgnoreCase("true");
+		
+		currency		= plugin.settings.getProperty("currency-symbol").toCharArray()[0];
 	}
 	
 	public synchronized int getmessages(){
@@ -105,5 +114,13 @@ public class Activity {
 			base+=command;
 		
 		return base;
+	}
+	
+	public synchronized int getFactor(){
+		return factor;
+	}
+	
+	public synchronized char getCurrencySymbol(){
+		return currency;
 	}
 }

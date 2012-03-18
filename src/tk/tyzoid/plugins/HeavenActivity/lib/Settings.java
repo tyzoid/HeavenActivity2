@@ -13,14 +13,15 @@ public class Settings {
 	
 	private final HashMap<String, String> settingsHolder = new HashMap<String, String>();
 	private String pluginname;
-	HeavenActivity plugin;
+	private HeavenActivity plugin;
 	
 	public Settings(HeavenActivity instance){
 		this.plugin = instance;
-		this.pluginname = instance.pluginname;
+		this.pluginname = plugin.pluginname;
 	}
 	
 	public void readSettings(){
+		System.out.println("[" + pluginname + "] Reading Settings");
 		try{
 			String path = "plugins/HeavenActivity";
 			File propertiesFile = new File(path + "/HeavenActivity.properties");

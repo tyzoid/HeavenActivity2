@@ -7,6 +7,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import tk.tyzoid.plugins.HeavenActivity.lib.Economy;
 import tk.tyzoid.plugins.HeavenActivity.lib.Settings;
 import tk.tyzoid.plugins.HeavenActivity.listeners.PlayerListener;
 
@@ -21,7 +22,9 @@ public class HeavenActivity extends JavaPlugin {
     public PermissionHandler permissionHandler;
     public boolean permissionsExists = false;
     public boolean useSuperperms = false;
-
+    
+    public Economy economy = new Economy();
+	
     public void onDisable() {
         System.out.println("[" + pluginname +"] " + pluginname + " is closing...");
     }
