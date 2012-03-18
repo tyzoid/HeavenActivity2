@@ -29,5 +29,7 @@ public class Payday implements Runnable{
 		
 		player.sendMessage(	"§b[" + pluginname + "§b] §c You account" +
 							" has been credited with " + c + "" + money);
+		
+		activity.reset();
 	}
 }

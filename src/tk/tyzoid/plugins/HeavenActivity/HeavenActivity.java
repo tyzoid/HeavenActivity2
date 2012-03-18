@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import tk.tyzoid.plugins.HeavenActivity.lib.Economy;
 import tk.tyzoid.plugins.HeavenActivity.lib.Settings;
-import tk.tyzoid.plugins.HeavenActivity.listeners.PlayerListener;
+import tk.tyzoid.plugins.HeavenActivity.listeners.EventListener;
 
 import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
@@ -17,7 +17,7 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 public class HeavenActivity extends JavaPlugin {
 	public String pluginname = "HeavenActivity";
 	
-    private final PlayerListener playerListener = new PlayerListener(this);
+    private final EventListener playerListener = new EventListener(this);
     public Settings settings = new Settings(this);
     public PermissionHandler permissionHandler;
     public boolean permissionsExists = false;

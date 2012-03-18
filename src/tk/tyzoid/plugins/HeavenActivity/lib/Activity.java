@@ -3,19 +3,21 @@ package tk.tyzoid.plugins.HeavenActivity.lib;
 import org.bukkit.entity.Player;
 
 import tk.tyzoid.plugins.HeavenActivity.HeavenActivity;
+import tk.tyzoid.plugins.HeavenActivity.tasks.Payday;
 
 public class Activity {
-	private int messages, blockbreak, blockplace, command;
+	private int messages, blockbreak, blockplace, command, trackingtime, difficulty, factor;
 	private long initialtime;
-	private HeavenActivity plugin;
-	
-	private int trackingtime, difficulty, factor;
 	
 	private boolean trackchat, trackcommand, trackblockplace, trackblockbreak;
 	
 	private char currency;
 	
 	Player player;
+	
+	HeavenActivity plugin;
+	
+	int taskId;
 	
 	public Activity(HeavenActivity instance, Player player){
 		init(instance, player, 0, 0, 0, 0);
@@ -37,6 +39,8 @@ public class Activity {
 		updateSettings();
 		
 		this.player = player;
+		
+		taskId = scheduleTask();
 	}
 	
 	public synchronized void updateSettings(){
@@ -122,5 +126,23 @@ public class Activity {
 	
 	public synchronized char getCurrencySymbol(){
 		return currency;
+	}
+	
+	public synchronized void reset(){
+		this.messages = 0;
+		this.blockbreak = 0;
+		this.blockplace = 0;
+		this.command = 0;
+		
+		initialtime = System.currentTimeMillis()/1000;
+		
+		taskId = scheduleTask();
+	}
+	
+	private int scheduleTask(){
+		return plugin.getServer().getScheduler().scheduleAsyncDelayedTask(
+				plugin,
+				new Payday(player, plugin, this),
+				(System.currentTimeMillis()/1000 - initialtime)*20);
 	}
 }
