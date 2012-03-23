@@ -61,4 +61,8 @@ public class CommandUtils {
 	public void notImplemented(Player player){
 		player.sendMessage("§3[§6" + pluginname +"§3] §cCommand not implemented yet! Sorry...");
 	}
+	
+	public String getPluginTag(){
+		return "§3[§6" + pluginname +"§3]";
+	}
 }

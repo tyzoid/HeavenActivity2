@@ -45,8 +45,9 @@ public class EventListener implements Listener {
 					event.setCancelled(true);
 					return;
 				} else {
-					cu.notImplemented(player);
+					double eActivity = at.get(player).getEstimatedActivity();
 					
+					player.sendMessage(cu.getPluginTag() + " §cYou have an estimated " + eActivity*100.0 + "% activity");
 					event.setCancelled(true);
 					return;
 				}
