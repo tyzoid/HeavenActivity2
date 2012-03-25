@@ -12,20 +12,23 @@ public class Payday implements Runnable{
 	
 	private String pluginname;
 	
-	public Payday(Player pl, HeavenActivity instance, Activity active){
-		this.player = pl;
+	public Payday(HeavenActivity instance, Activity active){
+		this.player = active.getPlayer();
 		this.plugin = instance;
 		this.activity = active;
 		
 		pluginname = plugin.pluginname;
-	}
+	} 
 	
 	public void run(){
 		double base = activity.getActivity();
 		char c = activity.getCurrencySymbol();
 		int money = (int) Math.round(base*activity.getFactor());
 		
-		plugin.economy.getMethod().getAccount(player.getName()).add(money);
+		plugin.economy
+			.getMethod()
+			.getAccount(player.getName())
+			.add(money);
 		
 		player.sendMessage(	"§b[" + pluginname + "§b] §c You account" +
 							" has been credited with " + c + "" + money);

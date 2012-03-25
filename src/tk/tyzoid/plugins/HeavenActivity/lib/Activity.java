@@ -93,7 +93,7 @@ public class Activity {
 	}
 	
 	public synchronized double getActivity(){
-		double activity = 1/(1+8*Math.exp((-1/difficulty) * getBase()));
+		double activity = 9/(8+64*Math.exp((-1/difficulty) * getBase())) - .125;
 		
 		return activity;
 	}
@@ -101,7 +101,7 @@ public class Activity {
 	public synchronized double getEstimatedActivity(){
 		long currenttime = System.currentTimeMillis()/1000;
 		double tm = trackingtime/(currenttime - initialtime); //time multiplier
-		double activity = 1/(1+8*Math.exp((-tm/difficulty) * getBase()));
+		double activity = 9/(8+64*Math.exp((-tm/difficulty) * getBase())) - .125;
 		
 		return activity;
 	}
@@ -142,7 +142,11 @@ public class Activity {
 	private int scheduleTask(){
 		return plugin.getServer().getScheduler().scheduleAsyncDelayedTask(
 				plugin,
-				new Payday(player, plugin, this),
-				(System.currentTimeMillis()/1000 - initialtime)*20);
+				new Payday(plugin, this),
+				(trackingtime + System.currentTimeMillis()/1000 - initialtime)*20);
+	}
+	
+	public Player getPlayer(){
+		return player;
 	}
 }

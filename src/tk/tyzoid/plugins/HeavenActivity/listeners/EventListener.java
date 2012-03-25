@@ -20,12 +20,12 @@ import tk.tyzoid.plugins.HeavenActivity.lib.CommandUtils;
 public class EventListener implements Listener {
 	private final HashMap<Player, Activity> at = new HashMap<Player, Activity>(); //activity tracker
 	private final HeavenActivity plugin;
-	private String pluginname;
+	//private String pluginname;
 	private CommandUtils cu;
 
 	public EventListener(HeavenActivity instance){
 		plugin = instance;
-		pluginname = plugin.pluginname;
+		//pluginname = plugin.pluginname;
 		cu = new CommandUtils(instance);
 	}
 
@@ -47,7 +47,7 @@ public class EventListener implements Listener {
 				} else {
 					double eActivity = at.get(player).getEstimatedActivity();
 					
-					player.sendMessage(cu.getPluginTag() + " §cYou have an estimated " + eActivity*100.0 + "% activity");
+					player.sendMessage(cu.getPluginTag() + " §cYou have an estimated " + plugin.round(eActivity*100.0, 2) + "% activity");
 					event.setCancelled(true);
 					return;
 				}
@@ -99,6 +99,10 @@ public class EventListener implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerCommandPreprocessHigh(PlayerCommandPreprocessEvent event){
 		if(!event.isCancelled()) return;
+		
+		String[] s = event.getMessage().split(" ");
+		if(cu.commandUsed(s, event.getPlayer(), "command-activity") && s.length == 1)
+			return;
 		
 		at.get(event.getPlayer()).incrementcommand();
 	}

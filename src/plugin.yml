@@ -18,7 +18,6 @@ permissions:
     activity.view.list:
         description: Allows to view a list of all players and their current activity with /activity list
         default: true
-    
     activity.notify.*:
         descriptions: Sends all notifications
         children:
@@ -30,7 +29,6 @@ permissions:
     activity.notify.income:
         description: Sends notifications about income
         default: true
-    
     activity.admin.*:
         description: Allows admin stuff
         default: op

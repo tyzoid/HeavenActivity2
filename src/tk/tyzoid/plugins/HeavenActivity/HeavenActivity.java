@@ -1,5 +1,7 @@
 package tk.tyzoid.plugins.HeavenActivity;
 
+import java.math.BigDecimal;
+
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
@@ -63,16 +65,17 @@ public class HeavenActivity extends JavaPlugin {
         }
     }
     
-    /* Valid nodes:
-     * HeavenActivity.*
-     * HeavenActivity.foo
-     * HeavenActivity.bar
-     */
     public boolean hasPermission(Player p, String node){
     	if(!useSuperperms){
     		return permissionHandler.has(p, node);
     	} else {
     		return p.hasPermission(node);
     	}
+    }
+    
+    public double round(double unrounded, int precision){
+        BigDecimal bd = new BigDecimal(unrounded);
+        BigDecimal rounded = bd.setScale(precision, BigDecimal.ROUND_HALF_UP);
+        return rounded.doubleValue();
     }
 }

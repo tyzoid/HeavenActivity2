@@ -63,13 +63,13 @@ public class Methods {
      * @see #Methods(java.lang.String)
      */
     private void _init() {
-        this.addMethod("iConomy", new tk.tyzoid.plugins.HeavenActivity.register.payment.methods.iCo6());
-        this.addMethod("iConomy", new tk.tyzoid.plugins.HeavenActivity.register.payment.methods.iCo5());
-        this.addMethod("iConomy", new tk.tyzoid.plugins.HeavenActivity.register.payment.methods.iCo4());
-        this.addMethod("BOSEconomy", new tk.tyzoid.plugins.HeavenActivity.register.payment.methods.BOSE6());
-        this.addMethod("BOSEconomy", new tk.tyzoid.plugins.HeavenActivity.register.payment.methods.BOSE7());
-        this.addMethod("Essentials", new tk.tyzoid.plugins.HeavenActivity.register.payment.methods.EE17());
-        this.addMethod("MultiCurrency", new tk.tyzoid.plugins.HeavenActivity.register.payment.methods.MCUR());
+        this.addMethod("iConomy",		new tk.tyzoid.plugins.HeavenActivity.register.payment.methods.iCo6());
+        this.addMethod("iConomy",		new tk.tyzoid.plugins.HeavenActivity.register.payment.methods.iCo5());
+        this.addMethod("iConomy",		new tk.tyzoid.plugins.HeavenActivity.register.payment.methods.iCo4());
+        this.addMethod("BOSEconomy",	new tk.tyzoid.plugins.HeavenActivity.register.payment.methods.BOSE6());
+        this.addMethod("BOSEconomy",	new tk.tyzoid.plugins.HeavenActivity.register.payment.methods.BOSE7());
+        this.addMethod("Essentials",	new tk.tyzoid.plugins.HeavenActivity.register.payment.methods.EE17());
+        this.addMethod("MultiCurrency",	new tk.tyzoid.plugins.HeavenActivity.register.payment.methods.MCUR());
     }
 
     /**
