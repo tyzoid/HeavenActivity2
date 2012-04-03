@@ -3,6 +3,7 @@ package tk.tyzoid.plugins.HeavenActivity.register.payment;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
@@ -93,11 +94,15 @@ public class Methods {
     public Method createMethod(Plugin plugin) {
         for (Method method: Methods) {
             if (method.isCompatible(plugin)) {
+            	System.out.println("[HeavenActivity] Compatable economy plugin found: "
+            			+ method.getName());
                 method.setPlugin(plugin);
                 return method;
             }
         }
-
+        
+    	System.out.println("[HeavenActivity] No compatable economy plugins found.");
+    	
         return null;
     }
 
@@ -124,6 +129,69 @@ public class Methods {
      * @param method Plugin data from bukkit, Internal Class file.
      * @return <code>boolean</code> True on success, False on failure.
      */
+    public boolean setupMethod(){
+    	if(hasMethod()) return true;
+        if(self) { self = false; return false; }
+
+        int count = 0;
+        boolean match = false;
+        Plugin plugin = null;
+        PluginManager manager = Bukkit.getServer().getPluginManager();
+        System.out.println("[HeavenActivity] Here 1/4");
+        for(String name: this.getDependencies()) {
+            if(hasMethod()) break;
+
+            System.out.println("[HeavenActivity] Here 2/4");
+            
+            plugin = manager.getPlugin(name);
+            
+            if(plugin == null) continue;
+            
+            System.out.println("[HeavenActivity] Here 3/4");
+
+            Method current = this.createMethod(plugin);
+            if(current == null) continue;
+            
+            System.out.println("[HeavenActivity] Here 4/4");
+
+            if(this.preferred.isEmpty())
+                this.Method = current;
+            else {
+                this.Attachables.add(current);
+            }
+        }
+
+        if(!this.preferred.isEmpty()) {
+            do {
+                if(hasMethod()) {
+                    match = true;
+                } else {
+                    for(Method attached: this.Attachables) {
+                        if(attached == null) continue;
+
+                        if(hasMethod()) {
+                            match = true;
+                            break;
+                        }
+
+                        if(this.preferred.isEmpty()) this.Method = attached;
+
+                        if(count == 0) {
+                            if(this.preferred.equalsIgnoreCase(attached.getName()))
+                                this.Method = attached;
+                        } else {
+                            this.Method = attached;
+                        }
+                    }
+
+                    count++;
+                }
+            } while(!match);
+        }
+
+        return hasMethod();
+    }
+    
     public boolean setMethod(Plugin method) {
         if(hasMethod()) return true;
         if(self) { self = false; return false; }
@@ -132,14 +200,25 @@ public class Methods {
         boolean match = false;
         Plugin plugin = null;
         PluginManager manager = method.getServer().getPluginManager();
-
+        System.out.println("[HeavenActivity] Here 1/4");
         for(String name: this.getDependencies()) {
             if(hasMethod()) break;
-            if(method.getDescription().getName().equals(name)) plugin = method; else  plugin = manager.getPlugin(name);
+
+            System.out.println("[HeavenActivity] Here 2/4");
+            
+            if(method.getDescription().getName().equals(name))
+            	plugin = method;
+            else
+            	plugin = manager.getPlugin(name);
+            
             if(plugin == null) continue;
+            
+            System.out.println("[HeavenActivity] Here 3/4");
 
             Method current = this.createMethod(plugin);
             if(current == null) continue;
+            
+            System.out.println("[HeavenActivity] Here 4/4");
 
             if(this.preferred.isEmpty())
                 this.Method = current;

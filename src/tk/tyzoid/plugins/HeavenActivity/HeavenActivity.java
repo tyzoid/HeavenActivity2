@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,18 +24,19 @@ public class HeavenActivity extends JavaPlugin {
     public boolean permissionsExists = false;
     public boolean useSuperperms = false;
     
-    public Economy economy = new Economy();
+    public Economy economy;
 	
     public void onDisable() {
         System.out.println("[" + pluginname +"] " + pluginname + " is closing...");
     }
     
     public void onEnable() {
+        economy = new Economy(this);
+        
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(playerListener, this);
+        pm.registerEvents(economy, this);
         
-        PluginDescriptionFile pdfFile = this.getDescription();
-        System.out.println("[" + pluginname + "] Starting " + pluginname + " v" + pdfFile.getVersion() + "...");
         setupPermissions();
         settings.readSettings();
     }

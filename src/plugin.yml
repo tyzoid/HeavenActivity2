@@ -2,6 +2,7 @@ name: HeavenActivity
 main: tk.tyzoid.plugins.HeavenActivity.HeavenActivity
 version: 2.0.0a
 author: Tyzoid
+softdepend: [BOSEconomy, Essentials, iConomy, MultiCurrency]
 permissions:
     activity.view.*:
         description: Allows to view all information
