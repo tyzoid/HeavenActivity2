@@ -8,7 +8,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import tk.tyzoid.plugins.HeavenActivity.lib.Economy;
+import tk.tyzoid.plugins.HeavenActivity.Economy.Economy;
 import tk.tyzoid.plugins.HeavenActivity.lib.Settings;
 import tk.tyzoid.plugins.HeavenActivity.listeners.EventListener;
 

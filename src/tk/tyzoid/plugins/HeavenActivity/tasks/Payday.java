@@ -26,9 +26,8 @@ public class Payday implements Runnable{
 		int money = (int) Math.round(base*activity.getFactor());
 		
 		plugin.economy
-			.getMethod()
-			.getAccount(player.getName())
-			.add(money);
+			.getEconomy()
+			.addMoney(player, money);
 		
 		player.sendMessage(	"§b[" + pluginname + "§b] §c You account" +
 							" has been credited with " + c + "" + money);
