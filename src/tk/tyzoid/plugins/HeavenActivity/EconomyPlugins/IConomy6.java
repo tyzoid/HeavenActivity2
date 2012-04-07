@@ -6,6 +6,7 @@ import org.bukkit.plugin.Plugin;
 import com.iCo6.iConomy;
 import com.iCo6.system.Accounts;
 
+import tk.tyzoid.plugins.HeavenActivity.Economy.Compatability;
 import tk.tyzoid.plugins.HeavenActivity.Economy.EconomyHandler;
 
 public class IConomy6 implements EconomyHandler {
@@ -23,18 +24,9 @@ public class IConomy6 implements EconomyHandler {
 		return "iConomy 6";
 	}
 	
-	public static boolean isCompatableWith(Plugin p){
-		if(p == null)
-			return false;
-		if(p.getClass().getPackage().getName().equals("com.iCo6"))
-			return true;
-		
-		return false;
-	}
-	
 	@Override
 	public boolean load(){
-		if(isCompatableWith(eco)){
+		if(Compatability.isIConomy6(eco)){
 			economy = (iConomy) eco;
 			accounts = new Accounts();
 			return true;

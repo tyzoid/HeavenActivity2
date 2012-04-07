@@ -30,7 +30,8 @@ public class Payday implements Runnable{
 			.addMoney(player, money);
 		
 		player.sendMessage(	"§b[" + pluginname + "§b] §c You account" +
-							" has been credited with " + c + "" + money);
+							" has been credited with " + c + "" + money + " for " +
+							plugin.round(base*100.0, 2) + "% activity");
 		
 		activity.reset();
 	}

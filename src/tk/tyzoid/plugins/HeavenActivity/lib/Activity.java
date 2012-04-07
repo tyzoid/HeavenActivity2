@@ -93,7 +93,7 @@ public class Activity {
 	}
 	
 	public synchronized double getActivity(){
-		double activity = 9/(8+64*Math.exp((-1/difficulty) * getBase())) - .125;
+		double activity = 9/(8+64*Math.exp((-1.0/difficulty) * getBase())) - .125;
 		
 		return activity;
 	}

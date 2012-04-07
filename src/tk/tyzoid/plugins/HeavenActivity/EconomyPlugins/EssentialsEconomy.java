@@ -8,6 +8,7 @@ import com.earth2me.essentials.api.Economy;
 import com.earth2me.essentials.api.NoLoanPermittedException;
 import com.earth2me.essentials.api.UserDoesNotExistException;
 
+import tk.tyzoid.plugins.HeavenActivity.Economy.Compatability;
 import tk.tyzoid.plugins.HeavenActivity.Economy.EconomyHandler;
 
 public class EssentialsEconomy implements EconomyHandler {
@@ -19,19 +20,9 @@ public class EssentialsEconomy implements EconomyHandler {
 		this.eco = eco;
 	}
 	
-	public static boolean isCompatableWith(Plugin p){
-		if(p == null)
-			return false;
-		
-		if(p.getClass().getPackage().getName().equals("com.earth2me.essentials"))
-			return true;
-		
-		return false;
-	}
-	
 	@Override
 	public boolean load() {
-		if(isCompatableWith(eco)){
+		if(Compatability.isEssentials(eco)){
 			essentials = (Essentials) eco;
 			return true;
 		} else {

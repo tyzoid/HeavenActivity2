@@ -3,7 +3,6 @@ package tk.tyzoid.plugins.HeavenActivity;
 import java.math.BigDecimal;
 
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -48,25 +47,16 @@ public class HeavenActivity extends JavaPlugin {
             if (permissionsPlugin != null) {
             	permissionsExists = true;
                 permissionHandler = ((Permissions) permissionsPlugin).getHandler();
-                System.out.println("[" + pluginname + "] Permissions found!");
+                System.out.println("[" + pluginname + "] Hooked into Permissions");
             } else {
                 permissionsExists = false;
-                
-                try{
-                	@SuppressWarnings("unused")
-					Permission fakePerm = new Permission("fake.perm");
-                	useSuperperms = true;
-                    System.out.println("[" + pluginname + "] Using built-in permissions.");
-                } catch(Exception e){
-                	//superperms doesn't exist
-                    System.out.println("[" + pluginname + "] Update CraftBukkit, will ya?");
-                }
+                System.out.println("[" + pluginname + "] Using superperms for permissions");
             }
         }
     }
     
     public boolean hasPermission(Player p, String node){
-    	if(!useSuperperms){
+    	if(permissionsExists){
     		return permissionHandler.has(p, node);
     	} else {
     		return p.hasPermission(node);
@@ -75,7 +65,7 @@ public class HeavenActivity extends JavaPlugin {
     
     public double round(double unrounded, int precision){
         BigDecimal bd = new BigDecimal(unrounded);
-        BigDecimal rounded = bd.setScale(precision, BigDecimal.ROUND_HALF_UP);
+        BigDecimal rounded = bd.setScale(precision+1, BigDecimal.ROUND_HALF_UP);
         return rounded.doubleValue();
     }
 }

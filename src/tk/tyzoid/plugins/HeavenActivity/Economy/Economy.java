@@ -35,9 +35,9 @@ public class Economy implements Listener {
 				pm.getPlugin("Essentials")
 		};
 		
-		if(plugins[0] != null && IConomy6.isCompatableWith(plugins[0]))
+		if(plugins[0] != null && Compatability.isIConomy6(plugins[0]))
 			econ = new IConomy6(plugins[0]);
-		else if(plugins[1] != null && EssentialsEconomy.isCompatableWith(plugins[1]))
+		else if(plugins[1] != null && Compatability.isEssentials(plugins[1]))
 			econ = new EssentialsEconomy(plugins[1]);
 		
 		if(econ != null){
@@ -58,9 +58,9 @@ public class Economy implements Listener {
     public void onPluginEnable(PluginEnableEvent event) {
 		Plugin plugin = event.getPlugin();
 		
-		if(IConomy6.isCompatableWith(plugin))
+		if(Compatability.isIConomy6(plugin))
 			econ = new IConomy6(plugin);
-		else if(EssentialsEconomy.isCompatableWith(plugin))
+		else if(Compatability.isEssentials(plugin))
 			econ = new EssentialsEconomy(plugin);
 		
 		econ.load();

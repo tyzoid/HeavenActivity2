@@ -65,4 +65,8 @@ public class CommandUtils {
 	public String getPluginTag(){
 		return "§3[§6" + pluginname +"§3]";
 	}
+	
+	public void showSyntax(Player player, int[] cid){
+		player.sendMessage(getPluginTag() + " " + Syntax.getSyntax(cid));
+	}
 }
