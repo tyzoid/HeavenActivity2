@@ -65,7 +65,7 @@ public class HeavenActivity extends JavaPlugin {
     
     public double round(double unrounded, int precision){
         BigDecimal bd = new BigDecimal(unrounded);
-        BigDecimal rounded = bd.setScale(precision+1, BigDecimal.ROUND_HALF_UP);
+        BigDecimal rounded = bd.setScale(precision, BigDecimal.ROUND_HALF_UP);
         return rounded.doubleValue();
     }
 }

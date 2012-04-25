@@ -1,6 +1,6 @@
 name: HeavenActivity
 main: tk.tyzoid.plugins.HeavenActivity.HeavenActivity
-version: 2.0.0a
+version: 2.0.1
 author: Tyzoid
 softdepend: [BOSEconomy, Essentials, iConomy, MultiCurrency]
 permissions:
@@ -17,18 +17,10 @@ permissions:
         description: Allows to view activity of other players with /activity (name)
         default: true
     activity.view.list:
-        description: Allows to view a list of all players and their current activity with /activity list
+        description: Allows to view a list of players and their current activity with /activity list
         default: true
-    activity.notify.*:
-        descriptions: Sends all notifications
-        children:
-            activity.notify.activity: true
-            activity.notify.income: true
-    activity.notify.activity:
-        description: Sends regular notifications about current activity
-        default: true
-    activity.notify.income:
-        description: Sends notifications about income
+    activity.notify:
+        description: Sends regular notifications about activity and income
         default: true
     activity.admin.*:
         description: Allows admin stuff

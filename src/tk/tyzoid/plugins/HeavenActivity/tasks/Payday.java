@@ -29,9 +29,11 @@ public class Payday implements Runnable{
 			.getEconomy()
 			.addMoney(player, money);
 		
+		if(player.hasPermission("activity.notify")){
 		player.sendMessage(	"§b[" + pluginname + "§b] §c You account" +
 							" has been credited with " + c + "" + money + " for " +
 							plugin.round(base*100.0, 2) + "% activity");
+		}
 		
 		activity.reset();
 	}

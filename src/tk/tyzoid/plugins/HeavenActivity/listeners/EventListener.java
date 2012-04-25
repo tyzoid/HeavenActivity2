@@ -1,8 +1,12 @@
 package tk.tyzoid.plugins.HeavenActivity.listeners;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,7 +23,7 @@ import tk.tyzoid.plugins.HeavenActivity.lib.Activity;
 import tk.tyzoid.plugins.HeavenActivity.lib.CommandUtils;
 
 public class EventListener implements Listener {
-	private final HashMap<Player, Activity> at = new HashMap<Player, Activity>(); //activity tracker
+	private final HashMap<String, Activity> at = new HashMap<String, Activity>(); //activity tracker
 	private final HeavenActivity plugin;
 	
 	@SuppressWarnings("unused")
@@ -49,9 +53,10 @@ public class EventListener implements Listener {
 					event.setCancelled(true);
 					return;
 				} else {
-					double eActivity = at.get(player).getEstimatedActivity();
+					double ea = plugin.round(at.get(player).getEstimatedActivity()*100, 2);
+					String plt = cu.getPluginTag();
 					
-					player.sendMessage(cu.getPluginTag() + " §cYou have an estimated " + plugin.round(eActivity*100.0, 2) + "% activity");
+					player.sendMessage(plt + " §cYou have an estimated " + ea + "% activity");
 					event.setCancelled(true);
 					return;
 				}
@@ -60,11 +65,22 @@ public class EventListener implements Listener {
 			if(split[1].equalsIgnoreCase("list")){
 				if(!player.hasPermission("activity.view.list")){
 					cu.noPermission(player);
+					event.setCancelled(true);
 					return;
 				}
 				
 				if(split.length == 2){
-					player.sendMessage(cu.getPluginTag() + " §fTop 5 players:");
+					String plt = cu.getPluginTag();
+					int po = Bukkit.getOnlinePlayers().length;
+					player.sendMessage(plt + " §fTop " + Math.min(5, po) + " players:");
+					
+					List<Activity> topPlayers = getTopPlayers(5);
+					for(Activity a : topPlayers){
+						String d = a.getPlayer().getDisplayName();
+						double ea = plugin.round(a.getEstimatedActivity()*100, 2);
+						
+						player.sendMessage(plt + " §f" + d + " has " + ea + "% activity");
+					}
 				} else if(split.length == 3) {
 					int players;
 					try{
@@ -75,7 +91,17 @@ public class EventListener implements Listener {
 						return;
 					}
 					
-					player.sendMessage(cu.getPluginTag() + " §fTop " + players +  " players:");
+					String plt = cu.getPluginTag();
+					int po = Bukkit.getOnlinePlayers().length;
+					player.sendMessage(plt + " §fTop " + Math.min(players, po) + " players:");
+					
+					List<Activity> topPlayers = getTopPlayers(players);
+					for(Activity a : topPlayers){
+						String d = a.getPlayer().getDisplayName();
+						double ea = plugin.round(a.getEstimatedActivity()*100, 2);
+						
+						player.sendMessage(plt + " §f" + d + " has " + ea + "% activity");
+					}
 				} else {
 					cu.showSyntax(player, new int[]{1,2});
 					event.setCancelled(true);
@@ -85,29 +111,62 @@ public class EventListener implements Listener {
 				
 				event.setCancelled(true);
 				return;
-			}
-			
-			if(split[1].equalsIgnoreCase("admin") && player.hasPermission("activity.admin")){
+			} else if(split[1].equalsIgnoreCase("admin")){
+				if(!player.hasPermission("activity.admin")){
+					cu.noPermission(player);
+					event.setCancelled(true);
+					return;
+				}
 				cu.notImplemented(player);
 				
 				event.setCancelled(true);
 				return;
+			} else {
+				if(!player.hasPermission("activity.view.other")){
+					cu.noPermission(player);
+					event.setCancelled(true);
+					return;
+				}
+				
+				Player pl = Bukkit.getPlayer(split[1]);
+				if((pl == null) || !pl.isOnline()){
+					player.sendMessage(cu.getPluginTag() + " §fPlayer must be online.");
+					event.setCancelled(true);
+					return;
+				}
+				
+				String d = pl.getDisplayName();
+				String plt = cu.getPluginTag();
+				
+				double ea = plugin.round(at.get(pl).getEstimatedActivity()*100, 2);
+				
+				player.sendMessage(plt + " §f" + d + " has " + ea + "% activity");
 			}
-			
-			
 		}
 	}
 	
-	private String[] getTopPlayers(int players){
-		HashMap<Double, Player> topPlayers = new HashMap<Double, Player>();
+	private List<Activity> getTopPlayers(int players){
+		List<Activity> topPlayers = new ArrayList<Activity>(at.values());
 		
-		for(Activity a : at.values()){
-			topPlayers.put(a.getEstimatedActivity(), a.getPlayer());
+		Collections.sort(topPlayers, new Comparator<Activity>(){
+			@Override
+			public int compare(Activity a, Activity b) {
+				double difference = b.getEstimatedActivity() - a.getEstimatedActivity();
+				return (int) Math.round(100*(difference));
+			}
+		});
+		
+		List<Activity> topNPlayers = new ArrayList<Activity>();
+		
+		int i = 0;
+		for(Activity a : topPlayers){
+			if(i < players)
+				topNPlayers.add(a);
+			else
+				return topNPlayers;
 		}
 		
-		
-		
-		return new String[]{"", ""};
+		return topNPlayers;
 	}
 	
 	@EventHandler
@@ -118,21 +177,21 @@ public class EventListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event){
 		Player player = event.getPlayer();
-		at.put(player, new Activity(plugin, player));
+		at.put(player.getName(), new Activity(plugin, player));
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onBlockBreak(BlockBreakEvent event){
 		if(event.isCancelled()) return;
 		
-		at.get(event.getPlayer()).incrementblockbreak();
+		at.get(event.getPlayer().getName()).incrementblockbreak();
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onBlockPlace(BlockPlaceEvent event){
 		if(event.isCancelled()) return;
 		
-		at.get(event.getPlayer()).incrementblockplace();
+		at.get(event.getPlayer().getName()).incrementblockplace();
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -143,14 +202,13 @@ public class EventListener implements Listener {
 		if(cu.commandUsed(s, event.getPlayer(), "command-activity") && s.length == 1)
 			return;
 		
-		at.get(event.getPlayer()).incrementcommand();
+		at.get(event.getPlayer().getName()).incrementcommand();
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerChat(PlayerChatEvent event){
 		if(event.isCancelled()) return;
 		
-		at.get(event.getPlayer()).incrementcommand();
+		at.get(event.getPlayer().getName()).incrementmessages();
 	}
-	
 }

@@ -57,7 +57,7 @@ public class Settings {
 			
 			loadProperty("tracking-time", "300");
 			loadProperty("tracking-type", "logistic");
-			loadProperty("tracking-quarter", "150");
+			loadProperty("tracking-quarter", "50");
 			//loadProperty("", "");
 			
 			//verify settings

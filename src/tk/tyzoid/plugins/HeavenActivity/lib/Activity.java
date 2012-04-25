@@ -7,6 +7,9 @@ import tk.tyzoid.plugins.HeavenActivity.tasks.Payday;
 
 public class Activity {
 	private int messages, blockbreak, blockplace, command, trackingtime, difficulty, factor;
+	
+	private double[] multipliers = new double[4];
+	
 	private long initialtime;
 	
 	private boolean trackchat, trackcommand, trackblockplace, trackblockbreak;
@@ -48,6 +51,11 @@ public class Activity {
 			trackingtime 	= Integer.parseInt(plugin.settings.getProperty("tracking-time"));
 			difficulty 		= Integer.parseInt(plugin.settings.getProperty("tracking-quarter"));
 			factor			= Integer.parseInt(plugin.settings.getProperty("currency-factor"));
+			
+			multipliers[0] = Double.parseDouble(plugin.settings.getProperty("multiplier-block-destroy"));
+			multipliers[1] = Double.parseDouble(plugin.settings.getProperty("multiplier-block-place"));
+			multipliers[2] = Double.parseDouble(plugin.settings.getProperty("multiplier-chat"));
+			multipliers[3] = Double.parseDouble(plugin.settings.getProperty("multiplier-command"));
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
@@ -106,16 +114,16 @@ public class Activity {
 		return activity;
 	}
 	
-	private int getBase(){
-		int base = 0;
+	private double getBase(){
+		double base = 0;
 		if(trackblockbreak)
-			base+=blockbreak;
+			base+=blockbreak * multipliers[0];
 		if(trackblockplace)
-			base+=blockplace;
+			base+=blockplace * multipliers[1];
 		if(trackchat)
-			base+=messages;
+			base+=messages * multipliers[2];
 		if(trackcommand)
-			base+=command;
+			base+=command * multipliers[3];
 		
 		return base;
 	}
@@ -135,6 +143,8 @@ public class Activity {
 		this.command = 0;
 		
 		initialtime = System.currentTimeMillis()/1000;
+		
+		updateSettings();
 		
 		taskId = scheduleTask();
 	}
