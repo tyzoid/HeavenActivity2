@@ -6,14 +6,11 @@ import tk.tyzoid.plugins.HeavenActivity.HeavenActivity;
 import tk.tyzoid.plugins.HeavenActivity.tasks.Payday;
 
 public class Activity {
-	private int messages, blockbreak, blockplace, command, trackingtime, difficulty, factor;
-	
+	private int messages, blockbreak, blockplace, command, trackingtime, difficulty;
+	private double factor;
 	private double[] multipliers = new double[4];
-	
 	private long initialtime;
-	
-	private boolean trackchat, trackcommand, trackblockplace, trackblockbreak;
-	
+	private boolean trackchat, trackcommand, trackblockplace, trackblockbreak, currdecimal;
 	private char currency;
 	
 	Player player;
@@ -50,7 +47,7 @@ public class Activity {
 		try{
 			trackingtime 	= Integer.parseInt(plugin.settings.getProperty("tracking-time"));
 			difficulty 		= Integer.parseInt(plugin.settings.getProperty("tracking-quarter"));
-			factor			= Integer.parseInt(plugin.settings.getProperty("currency-factor"));
+			factor			= Double.parseDouble(plugin.settings.getProperty("currency-factor"));
 			
 			multipliers[0] = Double.parseDouble(plugin.settings.getProperty("multiplier-block-destroy"));
 			multipliers[1] = Double.parseDouble(plugin.settings.getProperty("multiplier-block-place"));
@@ -64,6 +61,8 @@ public class Activity {
 		trackcommand	= plugin.settings.getProperty("tracking-command").equalsIgnoreCase("true");
 		trackblockplace	= plugin.settings.getProperty("tracking-block-place").equalsIgnoreCase("true");
 		trackblockbreak	= plugin.settings.getProperty("tracking-block-break").equalsIgnoreCase("true");
+		
+		currdecimal		= plugin.settings.getProperty("currenty-decimals").equalsIgnoreCase("true");
 		
 		currency		= plugin.settings.getProperty("currency-symbol").toCharArray()[0];
 	}
@@ -128,12 +127,16 @@ public class Activity {
 		return base;
 	}
 	
-	public synchronized int getFactor(){
+	public synchronized double getFactor(){
 		return factor;
 	}
 	
 	public synchronized char getCurrencySymbol(){
 		return currency;
+	}
+	
+	public synchronized boolean getCurrencyDecimal(){
+		return currdecimal;
 	}
 	
 	public synchronized void reset(){

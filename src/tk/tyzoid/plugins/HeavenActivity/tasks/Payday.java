@@ -23,7 +23,11 @@ public class Payday implements Runnable{
 	public void run(){
 		double base = activity.getActivity();
 		char c = activity.getCurrencySymbol();
-		int money = (int) Math.round(base*activity.getFactor());
+		double money;
+		if(!activity.getCurrencyDecimal())
+			money = (int) Math.round(base*activity.getFactor());
+		else
+			money = plugin.round(base*activity.getFactor(), 2);
 		
 		plugin.economy
 			.getEconomy()

@@ -40,8 +40,9 @@ public class Settings {
 			loadProperty("command-activity", "/heavenactivity,/activity,/ha");
 			
 			//currency
-			loadProperty("currency-factor", "100");
+			loadProperty("currency-factor", "100.0");
 			loadProperty("currency-symbol", "$");
+			loadProperty("currenty-decimals", "false");
 			
 			//multipliers
 			loadProperty("multiplier-block-destroy", "1.0");
@@ -106,11 +107,14 @@ public class Settings {
 		}
 		
 		//currency
-		if(!verifyInteger(getProperty("currency-factor"))){
-			setProperty("currency-factor", "100");
+		if(!verifyDouble(getProperty("currency-factor"))){
+			setProperty("currency-factor", "100.0");
 		}
 		if(!verifyChar(getProperty("currency-symbol"))){
 			setProperty("currency-symbol", "$");
+		}
+		if(!verifyBoolean(getProperty("currenty-decimals"))){
+			setProperty("tracking-block-place", "false");
 		}
 		
 		//multipliers
